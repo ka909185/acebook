@@ -13,9 +13,14 @@
     </div>
   <% end %>
 
-  <%= f.label :内容 %>
+  <%= f.label :説明文 %>
   <%= f.text_field :content, class: 'form-control' %>
   <br>
+  <%= f.label :写真・動画 %>
+  <%= f.file_field :image %>
+  <%= f.hidden_field :image_cache %>
+  <br>
+
   <%= f.submit '投稿', class: 'btn btn-primary btn-block' %>
 <% end %>
 <%= link_to "トピックス一覧画面にもどる", topics_path %>

@@ -1,10 +1,9 @@
 class TopicsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_topic, only: [:edit, :update, :destroy]
+  before_action :set_topic, only: [:edit, :update, :destroy, :show]
 
   def index
     @topics = Topic.all
-    raise
   end
 
   def new
@@ -50,9 +49,14 @@ class TopicsController < ApplicationController
     render :new if @topic.invalid?
   end
 
+  def show
+    @comment = @topic.comments.build
+    @comments = @topic.comments
+  end
+
   private
     def topics_params
-      params.require(:topic).permit(:content)
+      params.require(:topic).permit(:content, :image, :image_cache)
     end
 
     def set_topic

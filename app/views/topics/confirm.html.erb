@@ -4,12 +4,16 @@
     <%= form_for(@topic) do |f| %>
     <!-- `f.hidden_field`を使用して、リクエストパラメータに値を設定できるようにしています。 -->
     <%= f.hidden_field :content %>
+    <%= f.hidden_field :image %>
+    <%= f.hidden_field :image_cache %>
     <!-- @blog.titleと@blog.contentとすることで、表示用の値を画面に出力しています。 -->
     <p>本文:<%= @topic.content %></p>
     <%= f.submit "登録", class: 'btn btn-primary btn-block' %>
     <% end %>
     <%= form_for(@topic, url: new_topic_path, method: 'get') do |f| %>
       <%= f.hidden_field :content %>
+      <%= f.hidden_field :image %>
+      <%= f.hidden_field :image_cache %>
       <%= f.submit "もどる", name: 'back', class: 'btn btn-default btn-block' %>
     <% end %>
   </div>
