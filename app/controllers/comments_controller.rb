@@ -4,6 +4,7 @@ class CommentsController < ApplicationController
   # Topicをパラメータの値から探し出し,Topicに紐づくcommentsとしてbuildします。
     @comment = current_user.comments.build(comment_params)
     @topic = @comment.topic
+    @notification = @comment.notifications.build(user_id: @topic.user.id )
   # クライアント要求に応じてフォーマットを変更
     respond_to do |format|
       if @comment.save
@@ -12,6 +13,9 @@ class CommentsController < ApplicationController
         unless @comment.topic.user_id == current_user.id
           Pusher.trigger("user_#{@comment.topic.user_id}_channel", 'comment_created', { message: 'あなたの投稿したトピックにコメントが付きました' })
         end
+        Pusher.trigger("user_#{@comment.topic.user_id}_channel", 'notification_created', {
+          unread_counts: Notification.where(user_id: @comment.topic.user.id, read: false).count
+        })
       else
         format.html { render :new }
       end
