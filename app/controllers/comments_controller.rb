@@ -9,6 +9,9 @@ class CommentsController < ApplicationController
       if @comment.save
         format.html { redirect_to topic_path(@topic), notice: 'コメントを投稿しました。' }
         format.js { render :index }
+        unless @comment.topic.user_id == current_user.id
+          Pusher.trigger("user_#{@comment.topic.user_id}_channel", 'comment_created', { message: 'あなたの投稿したトピックにコメントが付きました' })
+        end
       else
         format.html { render :new }
       end
