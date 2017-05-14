@@ -12,7 +12,6 @@ while n <= 10
   email = Faker::Internet.email
   password = "password"
   name = Faker::Name.name
-  uid = SecureRandom.uuid
   Topic.create(
     content: content,
     user_id: n
@@ -21,7 +20,6 @@ while n <= 10
               password: password,
               password_confirmation: password,
               name: name
-              uid: uid
               )
   n = n + 1
 end
